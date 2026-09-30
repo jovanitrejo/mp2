@@ -1,9 +1,16 @@
 import './App.css'
+import { Outlet } from 'react-router'
+import Navbar from './shell/Navbar';
 
 function App() {
 
   return (
-    <h1>Hello World!</h1>
+    <div>
+      <Navbar />
+      {/*App-Content*/}
+      <Outlet />
+      {/*Footer*/}
+    </div>
   )
 }
 
