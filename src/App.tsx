@@ -8,7 +8,9 @@ function App() {
     <div>
       <Navbar />
       {/*App-Content*/}
-      <Outlet />
+      <main>
+        <Outlet />
+      </main>
       {/*Footer*/}
     </div>
   )
