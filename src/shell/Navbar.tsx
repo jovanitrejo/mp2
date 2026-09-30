@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
     Collapse,
     Navbar,
@@ -8,6 +8,7 @@ import {
     NavItem,
     NavLink,
 } from 'reactstrap';
+import { Link } from 'react-router';
 
 export function CustomNavbar() {
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -16,22 +17,22 @@ export function CustomNavbar() {
     return (
         <div>
             <Navbar expand="md">
-                <NavbarBrand href="/">reactstrap</NavbarBrand>
+                <NavbarBrand to="/" tag={Link} >Entertainment Discovery Service</NavbarBrand>
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="ms-auto" navbar>
                         <NavItem>
-                            <NavLink href="/">
+                            <NavLink tag={Link} to="/search">
                                 Search
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink href="/">
+                            <NavLink tag={Link} to="/recommended">
                                 Recommended
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink href="/">
+                            <NavLink tag={Link} to="/trending">
                                 Trending
                             </NavLink>
                         </NavItem>
