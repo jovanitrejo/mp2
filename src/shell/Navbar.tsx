@@ -29,7 +29,7 @@ export function CustomNavbar() {
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="ms-auto" navbar>
                         {LINKS.map(link => (
-                            <NavItem>
+                            <NavItem key={link.ref}>
                                 <NavLink tag={Link} to={link.ref} onClick={closeToggle} >
                                     {link.title}
                                 </NavLink>
