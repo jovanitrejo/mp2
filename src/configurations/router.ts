@@ -3,6 +3,8 @@ import {
 } from 'react-router';
 import App from '../App';
 import Root from '../routes/Root';
+import Search from '../routes/Search';
+import { searchLoader } from '../loaders/searchLoader';
 
 export const router = createBrowserRouter([
     {
@@ -15,6 +17,8 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/search',
+                Component: Search,
+                loader: searchLoader,
             }
         ]
     }
