@@ -1,13 +1,13 @@
 import './App.css'
 import { Outlet } from 'react-router'
 import Navbar from './shell/Navbar';
+import Footer from './shell/Footer';
 
 function App() {
 
   return (
-    <div>
+    <div className="app-shell">
       <Navbar />
-      {/*App-Content*/}
       <main>
         <Outlet />
       </main>
