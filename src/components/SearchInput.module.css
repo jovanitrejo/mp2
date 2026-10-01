@@ -1,0 +1,8 @@
+.searchSection {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.searchButton {
+    width: 75px;
+}
