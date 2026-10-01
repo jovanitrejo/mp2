@@ -9,12 +9,19 @@
     grid-row: 1
 }
 
+main {
+    width: 100%;
+}
+
 main > div {
+    height: 100%;
+}
+
+main > div > div {
     display: flex;
-    min-height: 100%;
-    justify-content: center;
     align-items: center;
-    flex-direction: column;
+    justify-content: center;
+    height: 100%;
 }
 
 .footer {
