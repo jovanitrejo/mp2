@@ -1,0 +1,14 @@
+.hero {
+    max-width: 600px;
+    text-align: left;
+}
+
+.searchSection {
+    display: flex;
+    gap: 0.5rem;
+    max-width: 600px;
+}
+
+.searchButton {
+    width: 75px;
+}
