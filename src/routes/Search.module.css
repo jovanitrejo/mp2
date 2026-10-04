@@ -1,3 +1,14 @@
 .clickable {
     cursor: pointer;
+    height: 100%;
+    transition: transform 0.15s ease;
+}
+
+.clickable:hover {
+    transform: scale(1.03);
+}
+
+.poster {
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
 }
