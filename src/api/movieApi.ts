@@ -39,5 +39,5 @@ export async function searchMoviesByText(
 }
 
 export async function getMovieDetails(movieId: number): Promise<MovieDetails> {
-    return await api.get(`${MOVIEDETAILENDPOINT}/${movieId}`);
+    return (await api.get(`${MOVIEDETAILENDPOINT}/${movieId}`)).data;
 }
