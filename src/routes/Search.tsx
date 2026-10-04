@@ -8,15 +8,17 @@ import {
     PaginationLink,
 } from 'reactstrap';
 import SearchInput from '../components/SearchInput';
-import { useLoaderData, useSearchParams } from 'react-router';
+import { useLoaderData, useSearchParams, useNavigate, type NavigateFunction } from 'react-router';
 import type Movie from '../types/Movie';
 import type { searchLoader } from '../loaders/searchLoader';
 import type TMBDResponse from '../types/TMDBResponse';
+import styles from './Search.module.css';
 
 export function Search(): React.JSX.Element {
     const [searchParams, setSearchParams] = useSearchParams();
     const urlQuery = searchParams.get('query') ?? '';
     const emptyQuery: boolean = urlQuery === '';
+    const navigate: NavigateFunction = useNavigate();
     const movies: TMBDResponse<Movie> | undefined = useLoaderData<typeof searchLoader>();
     
     const pageStart: number = movies !== undefined
@@ -72,7 +74,11 @@ export function Search(): React.JSX.Element {
                                                 movies.results.map(
                                                     movie =>
                                                     (
-                                                        <tr key={movie.id}>
+                                                        <tr 
+                                                            key={movie.id}
+                                                            onClick={() => navigate(`/details/${movie.id}`)}
+                                                            className={styles.clickable}
+                                                        >
                                                             <td>
                                                                 {movie.title}
                                                             </td>
