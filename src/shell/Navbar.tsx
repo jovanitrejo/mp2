@@ -17,8 +17,6 @@ export function CustomNavbar() {
 
     const LINKS: { title: string; ref: string }[] = [
         { title: "Search", ref: "/search" },
-        { title: "Recommended", ref: "/recommended" },
-        { title: "Trending", ref: "/trending" },
     ]
 
     return (
