@@ -6,6 +6,12 @@ import {
     Pagination,
     PaginationItem,
     PaginationLink,
+    Card,
+    CardBody,
+    CardTitle,
+    CardImg,
+    ButtonGroup,
+    Button
 } from 'reactstrap';
 import SearchInput from '../components/SearchInput';
 import { useLoaderData, useSearchParams, useNavigate, type NavigateFunction } from 'react-router';
@@ -13,13 +19,100 @@ import type Movie from '../types/Movie';
 import type { searchLoader } from '../loaders/searchLoader';
 import type TMBDResponse from '../types/TMDBResponse';
 import styles from './Search.module.css';
+import { useState } from 'react';
+
+function ListView({movies}: {movies: TMBDResponse<Movie>}): React.JSX.Element {
+    const navigate: NavigateFunction = useNavigate();
+    return (
+        <Table
+            hover
+        >
+            <thead>
+                <tr>
+                    <th>Movie</th>
+                    <th>Language</th>
+                    <th>Release Date</th>
+                    <th>Rank</th>
+                </tr>
+            </thead>
+            <tbody>
+                {
+                    movies.results.map(
+                        movie =>
+                        (
+                            <tr
+                                key={movie.id}
+                                onClick={() => navigate(`/details/${movie.id}`)}
+                                className={styles.clickable}
+                            >
+                                <td>
+                                    {movie.title}
+                                </td>
+                                <td>
+                                    {movie.original_language}
+                                </td>
+                                <td>
+                                    {movie.release_date}
+                                </td>
+                                <td>
+                                    {movie.popularity}
+                                </td>
+                            </tr>
+                        )
+                    )
+                }
+            </tbody>
+        </Table>
+    )
+}
+
+function GalleryView({ movies }: { movies: TMBDResponse<Movie> }): React.JSX.Element {
+    const navigate: NavigateFunction = useNavigate();
+
+    return (
+        <Row>
+            {movies.results.map((movie) => (
+                <Col
+                    key={movie.id}
+                    xs="6"
+                    sm="4"
+                    md="3"
+                    lg="2"
+                    className="mb-4"
+                >
+                    <Card
+                        className={styles.clickable}
+                        onClick={() => navigate(`/details/${movie.id}`)}
+                    >
+                        <CardImg
+                            top
+                            src={
+                                movie.poster_path
+                                ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                                    : 'https://placehold.co/500x750/1f2937/9ca3af/png?text=%3F'
+                            }
+                            alt={movie.title}
+                        />
+
+                        <CardBody>
+                            <CardTitle tag="h6">
+                                {movie.title}
+                            </CardTitle>
+                        </CardBody>
+                    </Card>
+                </Col>
+            ))}
+        </Row>
+    );
+}
+
 
 export function Search(): React.JSX.Element {
     const [searchParams, setSearchParams] = useSearchParams();
     const urlQuery = searchParams.get('query') ?? '';
     const emptyQuery: boolean = urlQuery === '';
-    const navigate: NavigateFunction = useNavigate();
     const movies: TMBDResponse<Movie> | undefined = useLoaderData<typeof searchLoader>();
+    const [viewMode, setViewMode] = useState<'list' | 'gallery'>('list');
     
     const pageStart: number = movies !== undefined
         ? movies.page - ((movies.page - 1) % 5)
@@ -58,45 +151,32 @@ export function Search(): React.JSX.Element {
                     (
                             (
                                 <Row>
-                                    <Table
-                                        hover
-                                    >
-                                        <thead>
-                                            <tr>
-                                                <th>Movie</th>
-                                                <th>Language</th>
-                                                <th>Release Date</th>
-                                                <th>Rank</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {
-                                                movies.results.map(
-                                                    movie =>
-                                                    (
-                                                        <tr 
-                                                            key={movie.id}
-                                                            onClick={() => navigate(`/details/${movie.id}`)}
-                                                            className={styles.clickable}
-                                                        >
-                                                            <td>
-                                                                {movie.title}
-                                                            </td>
-                                                            <td>
-                                                                {movie.original_language}
-                                                            </td>
-                                                            <td>
-                                                                {movie.release_date}
-                                                            </td>
-                                                            <td>
-                                                                {movie.popularity}
-                                                            </td>
-                                                        </tr>
-                                                    )
-                                                )
-                                            }
-                                        </tbody>
-                                    </Table>
+                                    <div className='d-flex justify-content-end mb-3'>
+                                        <ButtonGroup>
+                                            <Button
+                                                onClick={() => setViewMode('list')}
+                                                color='primary'
+                                                active={viewMode === 'list'}
+                                                outline
+                                            >
+                                                List
+                                            </Button>
+                                            <Button
+                                                onClick={() => setViewMode('gallery')}
+                                                color='primary'
+                                                active={viewMode === 'gallery'}
+                                                outline
+                                            >
+                                                Gallery
+                                            </Button>
+                                        </ButtonGroup>
+                                    </div>
+                                    {
+                                        viewMode === 'list' ? 
+                                            <ListView movies={movies} />
+                                            :
+                                            <GalleryView movies={movies} />
+                                    }
                                     <div
                                         className="d-flex justify-content-center"
                                     >
