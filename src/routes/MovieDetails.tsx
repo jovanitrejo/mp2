@@ -2,13 +2,20 @@ import {
     Container,
     Row,
     Col,
-    Card
+    Card,
+    Button
 } from 'reactstrap';
 import type { MovieDetails } from '../types/Details';
-import { useLoaderData } from 'react-router';
+import { useLoaderData, useSearchParams, Link } from 'react-router';
+import type { movieLoader } from '../loaders/movieLoader';
 
 export function MovieDetails(): React.JSX.Element {
-    const movie: MovieDetails = useLoaderData();
+    const {movie, prev, next} = useLoaderData<typeof movieLoader>();
+    const [searchParams] = useSearchParams();
+    const query = searchParams.get('query')
+    
+    const toDetails = (n: { id: number; page: number }) => `/details/${n.id}?query=${encodeURIComponent(query!)}&page=${n.page}`;
+
     return (
         <Container className='centered-page'>
             <Card className="p-3">
@@ -33,6 +40,14 @@ export function MovieDetails(): React.JSX.Element {
                     </Col>
                 </Row>
             </Card>
+            <div className='d-flex justify-content-between mt-3'>
+                <Button tag={Link} to={prev ? toDetails(prev) : '#'} disabled={!prev} color='primary' outline>
+                    Previous
+                </Button>
+                <Button tag={Link} to={next ? toDetails(next) : '#'} disabled={!next} color='primary' outline>
+                    Next
+                </Button>
+            </div>
         </Container>
     )
 }
