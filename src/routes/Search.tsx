@@ -22,6 +22,7 @@ import styles from './Search.module.css';
 import { useState } from 'react';
 
 function ListView({movies}: {movies: TMBDResponse<Movie>}): React.JSX.Element {
+    const [searchParams] = useSearchParams();
     const navigate: NavigateFunction = useNavigate();
     return (
         <Table
@@ -42,7 +43,7 @@ function ListView({movies}: {movies: TMBDResponse<Movie>}): React.JSX.Element {
                         (
                             <tr
                                 key={movie.id}
-                                onClick={() => navigate(`/details/${movie.id}`)}
+                                onClick={() => navigate(`/details/${movie.id}?${searchParams}`)}
                                 className={styles.clickable}
                             >
                                 <td>
@@ -67,8 +68,8 @@ function ListView({movies}: {movies: TMBDResponse<Movie>}): React.JSX.Element {
 }
 
 function GalleryView({ movies }: { movies: TMBDResponse<Movie> }): React.JSX.Element {
+    const [searchParams] = useSearchParams();
     const navigate: NavigateFunction = useNavigate();
-
     return (
         <Row>
             {movies.results.map((movie) => (
@@ -82,7 +83,7 @@ function GalleryView({ movies }: { movies: TMBDResponse<Movie> }): React.JSX.Ele
                 >
                     <Card
                         className={styles.clickable}
-                        onClick={() => navigate(`/details/${movie.id}`)}
+                        onClick={() => navigate(`/details/${movie.id}?${searchParams}`)}
                     >
                         <CardImg
                             top
