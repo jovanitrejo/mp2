@@ -14,7 +14,11 @@ export function MovieDetails(): React.JSX.Element {
     const [searchParams] = useSearchParams();
     const query = searchParams.get('query')
     
-    const toDetails = (n: { id: number; page: number }) => `/details/${n.id}?query=${encodeURIComponent(query!)}&page=${n.page}`;
+    const toDetails = (n: { id: number; page: number }) => {
+        const p = new URLSearchParams(searchParams);
+        p.set('page', String(n.page));
+        return `/details/${n.id}?${p}`;
+    };
 
     return (
         <Container className='centered-page'>
