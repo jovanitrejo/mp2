@@ -2,7 +2,7 @@ import {type AxiosResponse } from 'axios';
 import api from '../configurations/axios';
 import type TMBDResponse from '../types/TMDBResponse';
 import type Movie from '../types/Movie';
-import type { MovieDetails } from '../types/Details';
+import type { Genre, MovieDetails } from '../types/Details';
 
 const MOVIEDETAILENDPOINT: string = '/movie';
 const MOVIESEARCHENDPOINT: string = "/search/movie";
@@ -40,4 +40,9 @@ export async function searchMoviesByText(
 
 export async function getMovieDetails(movieId: number): Promise<MovieDetails> {
     return (await api.get(`${MOVIEDETAILENDPOINT}/${movieId}`)).data;
+}
+
+export async function getMovieGenres(): Promise<Genre[]> {
+    const response: AxiosResponse<{ genres: Genre[] }> = await api.get('/genre/movie/list');
+    return response.data.genres;
 }
