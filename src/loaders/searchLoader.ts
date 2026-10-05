@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs } from "react-router";
-import { searchMoviesByText } from "../api/movieApi";
+import { getMovieGenres, searchMoviesByText } from "../api/movieApi";
 import { AxiosError, } from "axios";
 
 export async function searchLoader({ request }: LoaderFunctionArgs) {
@@ -11,21 +11,17 @@ export async function searchLoader({ request }: LoaderFunctionArgs) {
     }
 
     try {
-        const response = await searchMoviesByText(
-            query,
-            false,
-            undefined,
-            undefined,
-            pageNumber,
-            undefined,
-            undefined
-        )
-        return response;
+        const [response, genres] = await Promise.all([
+            searchMoviesByText(query, false, undefined, undefined, pageNumber),
+            getMovieGenres()
+        ]);
+        return {movies: response, genres};
     } catch (error: unknown) {
         if (error instanceof AxiosError) {
             console.error(error.message);
         } else if (error instanceof Error) {
             console.error(error.message);
         }
+        throw error;
     }
 }
