@@ -18,6 +18,15 @@ export function MovieDetails(): React.JSX.Element {
 
     return (
         <Container className='centered-page'>
+            {
+                query && (
+                    <div className='mb-3'>
+                        <Button tag={Link} to={`/search?${searchParams}`} color='secondary' outline>
+                            Go Back
+                        </Button>
+                    </div>
+                )
+            }
             <Card className="p-3">
                 <Row className='justify-content-center align-items-center g-4'>
                     <Col xs={12} md='auto' className='text-center text-md-start'>
