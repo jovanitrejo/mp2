@@ -2,6 +2,14 @@
     text-align: left;
 }
 
+.heroBackground {
+    display: flex;
+    background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),url('../assets/rootHero.jpg');
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+}
+
 .searchSection {
     display: flex;
     gap: 0.5rem;
