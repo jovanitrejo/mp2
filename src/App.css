@@ -2,7 +2,6 @@
     display: grid;
     grid-template-rows: auto 1fr auto;
     min-height: 100dvh;
-    row-gap: 2rem;
 }
 
 .navbar {
@@ -36,5 +35,10 @@ main > * {
     padding: 3px 0 3px 0;
     display: flex;
     justify-content: center;
+    align-items: center;
     grid-row: 3;
+}
+
+.footer > p {
+    margin: 0;
 }
