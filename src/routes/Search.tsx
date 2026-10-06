@@ -21,25 +21,7 @@ import type { searchLoader } from '../loaders/searchLoader';
 import type TMBDResponse from '../types/TMDBResponse';
 import styles from './Search.module.css';
 import { useMemo, useState } from 'react';
-
-type SortKey = 'title' | 'release_date' | 'popularity' | 'vote_average';
-
-const SORT_OPTIONS: {key: SortKey; label: string}[] = [
-    {key: 'title', label: 'Title'},
-    {key: 'release_date', label: 'Release Date'},
-    {key: 'popularity', label: 'Popularity'},
-    {key: 'vote_average', label: 'Rating'},
-];
-
-function compareMovies(a: Movie, b: Movie, key: SortKey): number {
-    switch (key) {
-        case 'title':
-        case 'release_date':
-            return a[key].localeCompare(b[key]);
-        default:
-            return a[key] - b[key];
-    }
-}
+import { applyFilters, parseFilters, SORT_OPTIONS } from '../utils/movieFilters';
 
 function ListView({movies}: {movies: TMBDResponse<Movie>}): React.JSX.Element {
     const [searchParams] = useSearchParams();
@@ -135,23 +117,14 @@ export function Search(): React.JSX.Element {
     const data = useLoaderData<typeof searchLoader>();
     const movies = data?.movies;
     const genres = data?.genres ?? [];
-    const sortParam = searchParams.get('sort');
-    const sortKey = SORT_OPTIONS.find(o => o.key === sortParam)?.key ?? null;
-    const order = searchParams.get('order') === 'desc' ? 'desc' : 'asc';
-    const selectedGenre = Number(searchParams.get('genre')) || null;
+    const filters = parseFilters(searchParams);
+    const { sortKey, order, genre: selectedGenre } = filters;
     const [viewMode, setViewMode] = useState<'list' | 'gallery'>('list');
     
     const filteredMovies = useMemo(() => {
         if (!movies) return movies;
-        let results = selectedGenre === null
-            ? movies.results
-            : movies.results.filter(m => m.genre_ids.includes(selectedGenre));
-        if (sortKey) {
-            const direction = order === 'asc' ? 1 : -1;
-            results = [...results].sort((a, b) => compareMovies(a, b, sortKey) * direction);
-        }
-        return { ...movies, results };
-    }, [movies, selectedGenre, sortKey, order]);
+        return { ...movies, results: applyFilters(movies.results, {sortKey, order, genre: selectedGenre})}
+    }, [movies, sortKey, order, selectedGenre]);
 
     const updateParam = (name: string, value: string) => {
         const next = new URLSearchParams(searchParams);
