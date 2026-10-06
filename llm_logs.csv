@@ -1,0 +1,196 @@
+https://claude.ai/share/06097ec9-96ee-4f0b-9f0d-6794cfe60bae,
+https://claude.ai/share/b062644f-bbba-4637-9dc3-83aca031020e,
+https://claude.ai/share/5978a231-705c-4abb-8b53-3f5b73af121c,
+
+Input:
+{
+  "adult": false,
+  "backdrop_path": "/86qE9M3TL5sb6kBhPnrmeHlj1gY.jpg",
+  "belongs_to_collection": {
+    "id": 661025,
+    "name": "Pokémon: Advanced Generation Collection",
+    "poster_path": "/fVqW8J9BWYKDg6L2fZyso47dqbD.jpg",
+    "backdrop_path": "/dsK9kYcQVxN2jtOlLlJDKn9yg6y.jpg"
+  },
+  "budget": 0,
+  "genres": [
+    {
+      "id": 10751,
+      "name": "Family"
+    },
+    {
+      "id": 12,
+      "name": "Adventure"
+    },
+    {
+      "id": 16,
+      "name": "Animation"
+    },
+    {
+      "id": 14,
+      "name": "Fantasy"
+    }
+  ],
+  "homepage": "",
+  "id": 34065,
+  "imdb_id": "tt0435286",
+  "origin_country": [
+    "JP"
+  ],
+  "original_language": "ja",
+  "original_title": "劇場版ポケットモンスター アドバンスジェネレーション 裂空の訪問者 デオキシス",
+  "overview": "Deoxys, a Pokémon from outer space, terrorizes the high-tech city Ash Ketchum and his friends are visiting.",
+  "popularity": 4.1788,
+  "poster_path": "/3UV4evNh70gvPZB9KJEoh3a9B6I.jpg",
+  "production_companies": [
+    {
+      "id": 12653,
+      "logo_path": null,
+      "name": "Pikachu Project",
+      "origin_country": "JP"
+    },
+    {
+      "id": 12654,
+      "logo_path": "/hBWpNb7x4R77xxltwNtM0ANboW6.png",
+      "name": "The Pokémon Company",
+      "origin_country": "JP"
+    },
+    {
+      "id": 9149,
+      "logo_path": "/isLUpud9N56ifftJZ4XvzwBBpoG.png",
+      "name": "Shogakukan",
+      "origin_country": "JP"
+    },
+    {
+      "id": 3034,
+      "logo_path": "/jnuO8pZNEBLEq5YaOP1f5OkmG91.png",
+      "name": "TV Tokyo",
+      "origin_country": "JP"
+    },
+    {
+      "id": 7967,
+      "logo_path": "/4W9ByL6mMDn9UOHh8oGD36l3BnN.png",
+      "name": "Media Factory",
+      "origin_country": "JP"
+    },
+    {
+      "id": 11644,
+      "logo_path": "/1fhfHRzI3GrXRjfuGTLaERshdzu.png",
+      "name": "Tomy",
+      "origin_country": "JP"
+    },
+    {
+      "id": 8157,
+      "logo_path": "/pEqcMX1aG3JvtDgfh2wNZJLCcb4.png",
+      "name": "jeki",
+      "origin_country": "JP"
+    },
+    {
+      "id": 5372,
+      "logo_path": "/tPtJc2rCOTHEzJQPStT6m3dI0eK.png",
+      "name": "OLM",
+      "origin_country": "JP"
+    },
+    {
+      "id": 5261,
+      "logo_path": null,
+      "name": "Shogakukan Production",
+      "origin_country": "JP"
+    }
+  ],
+  "production_countries": [
+    {
+      "iso_3166_1": "JP",
+      "name": "Japan"
+    }
+  ],
+  "release_date": "2004-07-22",
+  "revenue": 34337258,
+  "runtime": 98,
+  "softcore": false,
+  "spoken_languages": [
+    {
+      "english_name": "Japanese",
+      "iso_639_1": "ja",
+      "name": "日本語"
+    }
+  ],
+  "status": "Released",
+  "tagline": "Meet the mysterious Deoxys!",
+  "title": "Pokémon: Destiny Deoxys",
+  "video": false,
+  "vote_average": 6.6,
+  "vote_count": 307
+}
+
+This is a response from the movie database api regarding movie details. Can you create a TypeSCript interface for this?
+
+Output:
+
+export interface Genre {
+  id: number;
+  name: string;
+}
+
+export interface Collection {
+  id: number;
+  name: string;
+  poster_path: string | null;
+  backdrop_path: string | null;
+}
+
+export interface ProductionCompany {
+  id: number;
+  logo_path: string | null;
+  name: string;
+  origin_country: string;
+}
+
+export interface ProductionCountry {
+  iso_3166_1: string;
+  name: string;
+}
+
+export interface SpokenLanguage {
+  english_name: string;
+  iso_639_1: string;
+  name: string;
+}
+
+export type MovieStatus =
+  | "Rumored"
+  | "Planned"
+  | "In Production"
+  | "Post Production"
+  | "Released"
+  | "Canceled";
+
+export interface MovieDetails {
+  adult: boolean;
+  backdrop_path: string | null;
+  belongs_to_collection: Collection | null;
+  budget: number;
+  genres: Genre[];
+  homepage: string;
+  id: number;
+  imdb_id: string | null;
+  origin_country: string[];
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string | null;
+  production_companies: ProductionCompany[];
+  production_countries: ProductionCountry[];
+  release_date: string; // "YYYY-MM-DD"
+  revenue: number;
+  runtime: number | null;
+  softcore: boolean;
+  spoken_languages: SpokenLanguage[];
+  status: MovieStatus;
+  tagline: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+}
